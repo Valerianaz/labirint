@@ -1,17 +1,16 @@
 from pygame import*
 class GameSprite(sprite.Sprite):
-    def __init__(self,player_image,w,h,x,y):
+    def __init__(self,player_image,player_x,player_y,size_x,size_y,):
         sprite.Sprite.__init__(self)
-        self.image = transform.scale(image.load(player_image),(x,y))
+        self.image = transform.scale(image.load(player_image),(size_x,size_y))
         self.rect = self.image.get_rect()
-        self.rect.x= x
-        self.rect.y= y
+        self.rect.x= player_y
+        self.rect.y= player_y
     def reset(self):
         window.blit(self.image,(self.rect.x,self.rect.y))     
 class Player(GameSprite):
-    def __init__(self,player_image,w,h,x,y,x_speed,y_speed):
-        (Sprite):
-            Gamesprite.__init__(self,player_image,w,h,x,y)
+    def __init__(self,player_image,player_x,player_y,size_x,size_y,x_speed,y_speed):
+        super().__init__(player_image,player_x,player_y,size_x,size_y)
         self.x_speed = x_speed
         self.y_speed = y_speed 
     def update(self):
@@ -40,9 +39,9 @@ class Player(GameSprite):
         bullet = Bullet('weapon.png',self.rect.right,self.rect.centery,15,20,15)
         bullets.add(bullet)
 class Enemy(GameSprite):
-    def __init__(self,player_image,w,h,x,y,x_speed,y_speed):
-        super().__init__(self,player_image,w,h,x,y,x_speed,y_speed)
-        self.speed= speed
+    def __init__(self,player_image,player_x,player_y,size_x,size_y,player_speed):
+        super().__init__(player_image,player_x,player_y,size_x,size_y)
+        self.speed= player_speed
     def update (self): 
         direction = 'left'
         speed = 2
@@ -56,8 +55,8 @@ class Enemy(GameSprite):
         else:
             self.rect.x += self.speed
 class Bullet(GameSprite):
-    def __init__(self,player_image,w,h,x,y,x_speed,y_speed):
-        super().__init__(self,player_image,w,h,x,y,x_speed,y_speed)
+    def __init__(self,player_image,player_x,player_y,size_x,size_y,x_speed,y_speed):
+        super().__init__(player_image,player_x,player_y,size_x,size_y,x_speed,y_speed)
         self.speed= speed
     def update(self):
         self.rect.x += self.speed
@@ -65,6 +64,7 @@ class Bullet(GameSprite):
             self.kill()
 win_width = 700
 win_height = 500
+display.set_caption('Лабиринт')
 window = display.set_mode((win_width,win_height))
 back = (119,210,223)
 display.set_caption('лабиринт')
@@ -75,11 +75,11 @@ barriers.add(w1)
 barriers.add(w2)
 pakman=Player('princess_3.png',5,win_height - 80,80,80,0,0)
 final=GameSprite('pac-1.png',win_width -85,win_height -100,80,80)
-monster= Enemy('boar_001.png',win_width -80,150,80,80,5)
+monster= Enemy('boar_001.png',win_width - 80,150,80,80,5)
 win=transform.scale(image.load('winner.jpg'),(700,500)),(0,0)
 lose =transform.scale(image.load('loose.png'),(700,500)),(0,0)
 monsters = sprite.Group()
-bullets = spritte.Group()
+bullets = sprite.Group()
 monsters.add(monster)
 finish = False
 run = True
@@ -134,3 +134,5 @@ while run:
             window.blit(transform.scale(img,(win_width,win_height)), (0,0))    
             time.delay(50)
             display.update()
+
+

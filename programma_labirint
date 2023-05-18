@@ -14,7 +14,7 @@ class Player(GameSprite):
         self.x_speed = x_speed
         self.y_speed = y_speed 
     def update(self):
-        if packman.rect.x <= win_width-80 and packman.x_speed>0 or packman.rect.x>=0 and packman.x_speed<0:    
+        if pakman.rect.x <= win_width-80 and pakman.x_speed>0 or pakman.rect.x>=0 and pakman.x_speed<0:    
             self.rect.x += self.x_speed
             platforms_touched= sprite.spritecollide(self,barriers,false)
         if self.x_speed >0:
@@ -23,7 +23,7 @@ class Player(GameSprite):
         elif self.x_speed <0:
              for p in platforms_touched:   
                 self.rect.left =min(self.rect.left,p.rect.right)
-        if packman.rect.y <= win_height-80 and packman.y_speed >0 or packman.rect.y>=0 and packman.y_speed<0:    
+        if pakman.rect.y <= win_height-80 and pakman.y_speed >0 or pakman.rect.y>=0 and pakman.y_speed<0:    
             self.rect.y += self.y_speed 
             platforms_touched=  sprite.spritecollide(self,barriers,false)
         if self.y_speed>0:
@@ -85,43 +85,42 @@ finish = False
 run = True
 while run:
     time.delay(50)
-    window.blit(player_image,(0,0))
     for e in event.get():
         if e.type==QUIT:
             run=False
         elif e.type == KEYDOWN:
             if e.key == K_LEFT:
-                packman.x_speed = -5
+                pakman.x_speed = -5
             elif e.key == K_RIGHT:
-                packman.x_speed = 5
+                pakman.x_speed = 5
             elif e.Key ==K_UP:
-                packman.y_speed= -5
+                pakman.y_speed= -5
             elif e.Key ==K_DOWN:
-                packman.y_speed= 5
+                pakman.y_speed= 5
         elif e.type == KEYUP:
             if e.key == K_LEFT:
                 packman.x_speed = 0
             elif e.key == K_RIGHT:
-                packman.x_speed = 0
+                pakman.x_speed = 0
             elif e.Key ==K_UP:
-                packman.y_speed= 0
+                pakman.y_speed= 0
             elif e.Key ==K_DOWN:
-                packman.y_speed= 0
-    if not Finish:
+                pakman.y_speed= 0
+    if not finish:
         window.fill(back)
-        packman.update()
+        pakman.update()
         bullets.update()
         w1.reset() 
         w2.reset()
         barriers.draw(window)
         bullets.draw(window)
-        packman.reset()
+        pakman.reset()
         final.reset()
         sprite.groupcollidate(monsters,bullet) 
         monsters.update()
         monsters.draw((window))
         sprite.groupcollide(bullets,barriers,True,False)
-        if sprite.collide_rect(packman,monster): 
+        if sprite.collide_rect(pakman,monster): 
             finish = True
             img = image.load('loose.png')
             d= img.get_width()//img.get_height()
@@ -134,5 +133,9 @@ while run:
             window.blit(transform.scale(img,(win_width,win_height)), (0,0))    
             time.delay(50)
             display.update()
+
+
+
+    
 
 
